@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Gestor
+from ..models import Gestor
 
 class GestorSerializable(serializers.ModelSerializer):
     class Meta:

@@ -1,0 +1,10 @@
+############ para utilizar essa api é necessario instalar algumas dependencias ################################
+ 1) djangorestframework
+ 2) django-mysql
+ 3) django 2+
+ 3) python3+
+ 4) venv
+###############################################################################################################
+exemplo install: pip install django-mysql
+install pip linux: sudo apt install pip && python -m pip upgrade  { bla bla bla} essas coisas
+ativar venv: .umbrella-env/bin/activate
