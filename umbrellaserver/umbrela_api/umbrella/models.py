@@ -2,17 +2,17 @@ from django.db import models
 from django.db.models import CharField
 from django_mysql.models import ListCharField
 import datetime
+from django.contrib.auth.models import User
 # Create your models here.
 
-class User(models.Model):
+class Userx(models.Model):
+    user = models.OneToOneField(User,related_name="user_api", on_delete=models.CASCADE, default=None,null=True)
     nome= models.CharField(max_length=400)
-    email=models.CharField(max_length=400)
-    username=models.CharField(max_length=400)
-    password=models.CharField(max_length=200)
-    identifier = models.CharField(max_length=200)
+    created_at = models.DateField(("Date"), default=datetime.date.today)
+    identifier = models.CharField(max_length=200,primary_key=True)
     actived = models.BooleanField(default=True)
     status=models.CharField(max_length=200)
-    key=models.CharField(("Key"), max_length=100,primary_key=True)
+    key=models.CharField(("Key"), max_length=200)
     class Meta:
         verbose_name_plural = "users"
     
@@ -21,6 +21,7 @@ class User(models.Model):
 
 class Seguidores(models.Model):
     name_reference=models.CharField(max_length=100)
+    status_follor = models.BooleanField(default=False)
     list_followers=ListCharField(
         base_field=CharField(max_length=10),
         size=6,
@@ -75,7 +76,7 @@ class Perfis(models.Model):
 
 class Gestor(models.Model):
     identifier=models.CharField(max_length=100,primary_key=True)
-    user = models.OneToOneField(User,on_delete=models.CASCADE,null=True,blank=True)
+    user = models.OneToOneField(Userx,on_delete=models.CASCADE,null=True,blank=True)
     Perfis = models.ManyToManyField(Perfis, null=True, blank=True)
     class Meta:
         verbose_name_plural = "gestores"

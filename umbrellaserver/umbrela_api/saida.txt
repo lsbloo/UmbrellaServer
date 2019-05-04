@@ -1,0 +1,1 @@
+[{"id":1,"name_reference":"seguidores_bolsonaro","status_follor":true,"list_followers":"['seguidor01', 'seguidor02']"}]

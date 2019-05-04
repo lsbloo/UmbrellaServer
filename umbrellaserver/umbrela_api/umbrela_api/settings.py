@@ -11,10 +11,13 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
-
+import sys
+from umbrella import *
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+print(sys.version)
+print(sys.path)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -26,7 +29,7 @@ SECRET_KEY = 'f0ltj@!bl&-zj4-3e9wsef#(8*uv*34y1%!-jg=-uj+b32*-v4'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+APPEND_SLASH=False
 
 # Application definition
 
@@ -37,11 +40,19 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sessions',
-    #'django.contrib.sites',
+    'rest_framework.authtoken',
     'rest_framework',
     'umbrella',
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+    'rest_framework.authentication.SessionAuthentication',
+    'rest_framework.authentication.BasicAuthentication'
+),
+
+}
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -51,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 
 ROOT_URLCONF = 'umbrela_api.urls'
 
@@ -69,6 +81,9 @@ TEMPLATES = [
         },
     },
 ]
+
+CSRF_COOKIE_SECURE = False
+CSRF_USE_SESSIONS = False
 
 WSGI_APPLICATION = 'umbrela_api.wsgi.application'
 
