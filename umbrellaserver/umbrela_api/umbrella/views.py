@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import generics,serializers,viewsets
-from django.http import request,response
+from django.http import response,request
 from django.http import HttpResponse
 import django_filters
 from django_filters import rest_framework as filters
@@ -19,6 +19,8 @@ from .serializables.tagsSerializable import TagsSerializable
 from .serializables.postsSerializable import PostSerializable
 from .serializables.perfisSerializable import PerfisSerializable
 from .serializables.perfisSerializable import PerfisSerializableCreate
+from .serializables.gestorSerializable import CreateGestorSerializable
+from .serializables.userSerializable import CreateUserSerializable
 from .serializables.seguidoresSerializable import SeguidoresSerializableCreate
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.authentication import TokenAuthentication
@@ -29,6 +31,7 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from braces.views import CsrfExemptMixin
+from rest_framework_jwt.views import obtain_jwt_token
 from rest_framework.views import APIView
 
 # Create your views here.
@@ -113,6 +116,20 @@ class CreateProfiles(viewsets.ModelViewSet):
     queryset=Perfis.objects.all()
     serializer_class=PerfisSerializableCreate
     authentication_classes=[TokenAuthentication,BasicAuthentication]
+    permission_classes=(IsAuthenticated,)
+    filter_fields='__all__'
+
+
+class CreateUser(viewsets.ModelViewSet):
+    queryset=User.objects.all()
+    serializer_class=CreateUserSerializable
+    permission_classes=(AllowAny,)
+    filter_fields='__all__'
+
+class CreateGestor(viewsets.ModelViewSet):
+    queryset=Gestor.objects.all()
+    serializer_class= CreateGestorSerializable
+    authentication_classes=[TokenAuthentication , BasicAuthentication]
     permission_classes=(IsAuthenticated,)
     filter_fields='__all__'
 

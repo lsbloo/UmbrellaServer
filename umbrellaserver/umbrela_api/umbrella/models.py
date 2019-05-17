@@ -6,14 +6,19 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Userx(models.Model):
-    user = models.OneToOneField(User,related_name="user_api", on_delete=models.CASCADE, default=None,null=False
-    ,primary_key=True)
+    user = models.OneToOneField(
+    User,
+    related_name="user_api", 
+    on_delete=models.CASCADE, 
+    default=None,
+    null=True, 
+    )
     nome= models.CharField(max_length=400)
     created_at = models.DateField(("Date"), default=datetime.date.today)
     identifier = models.CharField(max_length=200)
     actived = models.BooleanField(default=True)
-    status=models.CharField(max_length=200)
-    key=models.CharField(("Key"), max_length=200)
+    status=models.CharField(max_length=200,default=None,null=True)
+    key=models.CharField(("Key"), max_length=200, default = None, null=True)
 
 
     class Meta:
@@ -64,7 +69,7 @@ class Feedbacks(models.Model):
     )
     
     class Meta:
-        verbose_name_plural="posts"
+        verbose_name_plural="feedbacks"
 
 class Perfis(models.Model):
     username=models.CharField(max_length=200)
@@ -79,7 +84,7 @@ class Perfis(models.Model):
 
 class Gestor(models.Model):
     identifier=models.CharField(max_length=100,primary_key=True)
-    user = models.OneToOneField(Userx,on_delete=models.CASCADE,null=True,blank=True)
+    user = models.OneToOneField(Userx,on_delete=models.CASCADE,null=True,blank=True, default =None)
     Perfis = models.ManyToManyField(Perfis, null=True, blank=True)
     class Meta:
         verbose_name_plural = "gestores"

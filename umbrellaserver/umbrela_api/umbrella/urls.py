@@ -1,6 +1,7 @@
 from django.conf.urls import url,include
 from django.contrib.auth import views as auth_views
 from umbrella import views 
+from umbrella import viewslogin
 from rest_framework import routers
 from django.views.decorators.csrf import csrf_exempt
 
@@ -9,7 +10,6 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 urlpatterns = [
-
     #url(r'umbrella/api/v1'),
     url(r'umbrella/api/v1/mgmnt/manager/g/$', views.GestorList.as_view(),name='gestores_list'),
     url(r'umbrella/api/v1/mgmnt/users/g/$', views.UsersList.as_view(),name="users_list"),
@@ -21,10 +21,18 @@ urlpatterns = [
         {'get': 'list',
         'post': 'create'}
     ) , name="create_followers"),
-    url(r'umbrella/api/v1/mgmnt/profiles/c/', views.CreateProfiles.as_view(
+    url(r'umbrella/api/v1/mgmnt/profiles/c/$', views.CreateProfiles.as_view(
         {'post': 'create'}
 
     ) , name="profile_create"),
+
+    url(r'umbrella/api/v1/mgmnt/users/c/$', views.CreateUser.as_view(
+        {'post': 'create'}
+    ), name="users_create"),
+    url(r'umbrella/api/v1/mgmnt/manager/c/$' , views.CreateGestor.as_view(
+        {'post' : 'create'}
+    ), name="gestores_create"),
+
     url(r'api-token-auth/' , views.CustomAuthToken.as_view(), name="user_token_list")
 
 ]
