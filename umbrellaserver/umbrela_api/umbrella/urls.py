@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'umbrella/api/v1/mgmnt/users/c/$', views.CreateUser.as_view(
         {'post': 'create'}
     ), name="users_create"),
+    url(r'umbrella/api/v1/mgmnt/tags/g' , views.TagsList.as_view(),name='tags_list'),
 
     url(r'api-token-auth/' , views.CustomAuthToken.as_view(), name="user_token_list")
 
