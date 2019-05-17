@@ -7,7 +7,7 @@ do tipo sessionManager();
 from threading import Thread
 from multiprocessing.pool import ThreadPool
 from time import *
-from .manage import ManageSessions
+from manage import ManageSessions
 
 
 
