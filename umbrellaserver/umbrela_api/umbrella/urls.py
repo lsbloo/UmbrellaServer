@@ -29,9 +29,6 @@ urlpatterns = [
     url(r'umbrella/api/v1/mgmnt/users/c/$', views.CreateUser.as_view(
         {'post': 'create'}
     ), name="users_create"),
-    url(r'umbrella/api/v1/mgmnt/manager/c/$' , views.CreateGestor.as_view(
-        {'post' : 'create'}
-    ), name="gestores_create"),
 
     url(r'api-token-auth/' , views.CustomAuthToken.as_view(), name="user_token_list")
 

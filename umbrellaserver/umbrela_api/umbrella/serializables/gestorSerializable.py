@@ -22,7 +22,7 @@ class CreateGestorSerializable(serializers.ModelSerializer):
         slug_field="name_reference"
         
         )
-
+    # FALTA IMPLEMENTAR ISSO AQ
     def create(self,validate_data):
         
         user_auth = Userx.objects.get(identifier='fdp')

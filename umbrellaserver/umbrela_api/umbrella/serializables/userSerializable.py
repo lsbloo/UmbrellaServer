@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from ..models import Userx
 from ..models import User
+from ..models import Gestor
 from umbrella.generators.token_user import gerenate_token
 
 """
@@ -41,6 +42,11 @@ class CreateUserSerializable(serializers.ModelSerializer):
         actived = True
         userx = Userx.objects.create(identifier=identifier,actived=actived)
         userx.user = user
+        userx.save()
+        #################################################################
+        # Manager Associate
+        manager = Gestor.objects.create(user=userx, identifier=identifier)
+        manager.save()
 
         return user
     

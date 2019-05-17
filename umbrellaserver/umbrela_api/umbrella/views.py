@@ -125,13 +125,7 @@ class CreateUser(viewsets.ModelViewSet):
     serializer_class=CreateUserSerializable
     permission_classes=(AllowAny,)
     filter_fields='__all__'
-
-class CreateGestor(viewsets.ModelViewSet):
-    queryset=Gestor.objects.all()
-    serializer_class= CreateGestorSerializable
-    authentication_classes=[TokenAuthentication , BasicAuthentication]
-    permission_classes=(IsAuthenticated,)
-    filter_fields='__all__'
+    
 
 class CustomAuthToken(ObtainAuthToken):
     serializer_class = UserSerializable
