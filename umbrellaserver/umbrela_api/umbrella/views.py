@@ -18,6 +18,7 @@ from .serializables.feedbackSerializable import FeedbackSerializable
 from .serializables.tagsSerializable import TagsSerializable
 from .serializables.postsSerializable import PostSerializable
 from .serializables.perfisSerializable import PerfisSerializable
+from .serializables.perfisSerializable import PerfisSerializableCreate
 from .serializables.seguidoresSerializable import SeguidoresSerializableCreate
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.authentication import TokenAuthentication
@@ -75,8 +76,8 @@ class SeguidoresList(generics.ListCreateAPIView):
 class SeguidoresViewSet(viewsets.ModelViewSet):
     queryset=Seguidores.objects.all()
     serializer_class=SeguidoresSerializableCreate
-   # authentication_classes=[TokenAuthentication,BasicAuthentication,]
-   # permission_classes=(IsAuthenticated, )
+    authentication_classes=[TokenAuthentication,BasicAuthentication,]
+    permission_classes=(IsAuthenticated, )
 
 
     
@@ -106,6 +107,13 @@ class PerfisList(generics.ListCreateAPIView):
     serializer_class=PerfisSerializable
     authentication_classes=[TokenAuthentication, BasicAuthentication, ]
     permission_classes=(IsAuthenticated, )
+    filter_fields='__all__'
+
+class CreateProfiles(viewsets.ModelViewSet):
+    queryset=Perfis.objects.all()
+    serializer_class=PerfisSerializableCreate
+    authentication_classes=[TokenAuthentication,BasicAuthentication]
+    permission_classes=(IsAuthenticated,)
     filter_fields='__all__'
 
 class CustomAuthToken(ObtainAuthToken):

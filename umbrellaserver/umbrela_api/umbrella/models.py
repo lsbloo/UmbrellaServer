@@ -6,13 +6,16 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Userx(models.Model):
-    user = models.OneToOneField(User,related_name="user_api", on_delete=models.CASCADE, default=None,null=True)
+    user = models.OneToOneField(User,related_name="user_api", on_delete=models.CASCADE, default=None,null=False
+    ,primary_key=True)
     nome= models.CharField(max_length=400)
     created_at = models.DateField(("Date"), default=datetime.date.today)
-    identifier = models.CharField(max_length=200,primary_key=True)
+    identifier = models.CharField(max_length=200)
     actived = models.BooleanField(default=True)
     status=models.CharField(max_length=200)
     key=models.CharField(("Key"), max_length=200)
+
+
     class Meta:
         verbose_name_plural = "users"
     
@@ -66,10 +69,10 @@ class Feedbacks(models.Model):
 class Perfis(models.Model):
     username=models.CharField(max_length=200)
     password=models.CharField(max_length=200)
-    seguidores = models.ManyToManyField(Seguidores)
-    tags = models.ManyToManyField(Tags)
-    posts = models.ManyToManyField(Posts)
-    feedbacks = models.ManyToManyField(Feedbacks)
+    seguidores = models.ManyToManyField(Seguidores,null=True, default=None) 
+    tags = models.ManyToManyField(Tags , null = True , default = None)
+    posts = models.ManyToManyField(Posts , null = True , default = None)
+    feedbacks = models.ManyToManyField(Feedbacks , null = True , default = None)
     class Meta:
         verbose_name_plural="perfis"
 
