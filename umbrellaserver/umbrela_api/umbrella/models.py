@@ -38,6 +38,9 @@ class Seguidores(models.Model):
     class Meta:
         verbose_name_plural="seguidores"
 
+    def __str__(self):
+        return self.name_reference
+
 class Tags(models.Model):
     name_reference=models.CharField(max_length=100)
     list_tag=ListCharField(
@@ -48,6 +51,9 @@ class Tags(models.Model):
 
     class Meta:
         verbose_name_plural="tags"
+
+    def __str__(self):
+        return self.name_reference
 
 class Posts(models.Model):
     name_reference=models.CharField(max_length=100)
@@ -60,6 +66,9 @@ class Posts(models.Model):
     class Meta:
         verbose_name_plural="posts"
 
+    def __str__(self):
+        return self.name_reference
+
 class Feedbacks(models.Model):
     name_reference=models.CharField(max_length=100)
     list_feedbacks=ListCharField(
@@ -70,6 +79,8 @@ class Feedbacks(models.Model):
     
     class Meta:
         verbose_name_plural="feedbacks"
+    def __str__(self):
+        return self.name_reference
 
 class Perfis(models.Model):
     username=models.CharField(max_length=200)
@@ -78,13 +89,19 @@ class Perfis(models.Model):
     tags = models.ManyToManyField(Tags , null = True , default = None)
     posts = models.ManyToManyField(Posts , null = True , default = None)
     feedbacks = models.ManyToManyField(Feedbacks , null = True , default = None)
+
     class Meta:
         verbose_name_plural="perfis"
 
+    def __str__(self):
+        return self.username
 
 class Gestor(models.Model):
     identifier=models.CharField(max_length=100,primary_key=True)
     user = models.OneToOneField(Userx,on_delete=models.CASCADE,null=True,blank=True, default =None)
     Perfis = models.ManyToManyField(Perfis, null=True, blank=True)
+
     class Meta:
         verbose_name_plural = "gestores"
+    def __str__(self):
+        return self.identifier
