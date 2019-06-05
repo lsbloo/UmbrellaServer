@@ -10,7 +10,7 @@ from ..models import Posts
 
 from datetime import *
 from umbrella_application.generators.token_user import gerenate_token
-from ..toolkit.umbrella_bot import *
+from ..toolkit.umbrella_bot import UmbrellaBot
 
 """
 Retorna todos os perfils criados; param get;
@@ -174,7 +174,9 @@ class ToolkitFollowersByTagSerializer(serializers.ModelSerializer):
         model = Gestor
         fields = ('identifier','perfil')
 
-    
-
-
-
+    #active toolkit ;
+    def create(self,validate_data):
+        perfil = Perfis.objects.get(id=validate_data.get('perfil'))
+        gestor = Gestor.objects.get(identifier=validate_data.get('idientifier'))
+        a = UmbrellaBot(perfil.username,perfil.password,perfil.amount,5)
+        a.sessions_following_by_list_tags(perfil.tags)
