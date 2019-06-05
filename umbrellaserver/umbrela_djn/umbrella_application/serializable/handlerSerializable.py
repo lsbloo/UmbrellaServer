@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from ..models import *
-from umbrella.generators.token_user import gerenate_token
+from umbrella_application.generators.token_user import gerenate_token
 
 """
 Retorna todos os perfils criados; param get;
@@ -217,3 +217,10 @@ class CreateUserSerializable(serializers.ModelSerializer):
         manager.save()
 
         return user
+
+
+class TagsSerializable(serializers.ModelSerializer):
+    class Meta:
+        model = Tags
+        fields = '__all__'
+

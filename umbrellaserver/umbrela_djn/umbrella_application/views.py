@@ -3,25 +3,25 @@ from rest_framework import generics,viewsets
 from django.http import request
 from django_filters import rest_framework as filters
 
-from serializable.handlerSerializable import *
+from .serializable.handlerSerializable import *
 
 from rest_framework.authentication import SessionAuthentication,TokenAuthentication,BasicAuthentication
 from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
 from rest_framework.authtoken.views import ObtainAuthToken
 
 from rest_framework.response import Response
-from braces.views import CsrfExemptMixin
+#from braces.views import CsrfExemptMixin
 
-from rest_framework_jwt.views import obtain_jwt_token
+#from rest_framework_jwt.views import obtain_jwt_token
 from rest_framework.views import APIView
 
 # Create your views here.
-
+"""
 class Object(CsrfExemptMixin, APIView):
     authentication_classes = []
     def post(self, request, format=None):
         return Response({'received data': request.data})
-
+"""
 class CsrfExemptSessionAuthentication(SessionAuthentication):
     def enforce_csrf(self, request):
         return  # To not perform the csrf check previously happening
