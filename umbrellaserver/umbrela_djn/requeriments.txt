@@ -1,0 +1,6 @@
+Django==2.0.13
+django-filter==2.1.0
+django-mysql==3.0.0.post1
+djangorestframework==3.9.3
+pkg-resources==0.0.0
+pytz==2019.1
