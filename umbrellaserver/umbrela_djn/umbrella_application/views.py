@@ -16,12 +16,17 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 # Create your views here.
-"""
-class Object(CsrfExemptMixin, APIView):
-    authentication_classes = []
-    def post(self, request, format=None):
-        return Response({'received data': request.data})
-"""
+
+
+
+class ToolkitActivateFollowersByTag(viewsets.ModelViewSet):
+    queryset=Gestor.objects.all()
+    serializer_class=ToolkitFollowersByTagSerializer
+    authentication_classes=[TokenAuthentication,BasicAuthentication]
+    permission_classes=(IsAuthenticated,)
+    filter_fields='__all__'
+
+
 class CsrfExemptSessionAuthentication(SessionAuthentication):
     def enforce_csrf(self, request):
         return  # To not perform the csrf check previously happening

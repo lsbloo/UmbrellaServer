@@ -1,6 +1,16 @@
 from rest_framework import serializers
-from ..models import *
+from ..models import Perfis
+from ..models import Seguidores
+from ..models import Tags
+from ..models import User
+from ..models import Userx
+from ..models import Gestor
+from ..models import Feedbacks
+from ..models import Posts
+
+from datetime import *
 from umbrella_application.generators.token_user import gerenate_token
+from ..toolkit.umbrella_bot import *
 
 """
 Retorna todos os perfils criados; param get;
@@ -8,46 +18,20 @@ Retorna todos os perfils criados; param get;
 class PerfisSerializable(serializers.ModelSerializer):
     class Meta:
         model = Perfis
-        fields = ['username','password','seguidores','tags','posts','feedbacks']
-        extra_kwargs = {'seguidores' : {'required' : False } , 'tags' : {'required' : False} ,'posts' : {'required' : False} , 'feedbacks' : {'required' : False}}
+        fields= '__all__'
 
-
-class PerfisSerializableCreate(serializers.ModelSerializer):
-    seguidores = serializers.SlugRelatedField(
-        allow_null=True, 
-        many=True, 
-        queryset=Perfis.objects.all(),
-        slug_field="name_reference"
-        )
-
-    tags = serializers.SlugRelatedField(
-        allow_null=True, 
-        many=True,
-        queryset=Perfis.objects.all(),
-        slug_field="name_reference"
-    )
-
-    posts = serializers.SlugRelatedField(
-        allow_null=True, 
-        many=True, 
-        queryset=Perfis.objects.all(),
-        slug_field="name_reference"
-        
-        )
-
-    feedbacks = serializers.SlugRelatedField(
-        allow_null=True, 
-        many=True,
-        queryset=Perfis.objects.all(),
-        slug_field="name_reference"
-        
-        )
+class PerfisSerializableCreate(serializers.HyperlinkedModelSerializer):
+     
+    class Meta:
+        model = Perfis
+        fields = ('username','password')
     
     def create(self,validate_data):
         profiles = Perfis.objects.create(
             username=validate_data['username'],
             password=validate_data['password'],
         )
+
         profiles.seguidores.add(Seguidores.objects.create())
         profiles.tags.add(Tags.objects.create())
         profiles.posts.add(Posts.objects.create())
@@ -55,45 +39,6 @@ class PerfisSerializableCreate(serializers.ModelSerializer):
         profiles.save()
         return profiles
     
-    def validate_response(self,validate_data):
-        param_validate=[]
-        empty=[]
-
-        if validate_data['seguidores'] == empty:
-            seguidores=None
-            param_validate.append(seguidores)
-        else:
-            seguidores=validate_data=['seguidores']
-            param_validate.append(seguidores)
-            
-
-        if validate_data['tags'] == empty:
-            tags=None
-            param_validate.append(tags)
-        else:
-            tags=validate_data['tags']
-            param_validate.append(tags)
-            
-        if validate_data['posts'] == empty:
-            posts=None
-            param_validate.append(posts)
-        else:
-            posts=validate_data['posts']
-            param_validate.append(posts)
-            
-        if validate_data['feedbacks'] == empty:
-            feedbacks=None
-            param_validate.append(feedbacks)
-        else:
-            feedbacks=validate_data['feedbacks']
-            param_validate.append(feedbacks)
-            
-        return param_validate
-    class Meta:
-        model = Perfis
-        fields = ['username','password','seguidores','tags','posts','feedbacks']
-        extra_kwargs = {'seguidores' : {'required' : False } , 'tags' : {'required' : False} ,'posts' : {'required' : False} , 'feedbacks' : {'required' : False}}
-
 
 
 """
@@ -186,22 +131,20 @@ class UserSerializable(serializers.ModelSerializer):
 Define a criação de um usuário(user model), com um token associado para o mesmo (authentication);
     ->
 """
-class CreateUserSerializable(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
+class CreateUserSerializable(serializers.HyperlinkedModelSerializer):
     
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'password','username']
+        fields = ['email', 'password','username']
+        extra_kwargs = {'username': {'required': False}, 'password' : {'required': False} }
 
     def create(self, validated_data):
         #User Model
-        user = User.objects.create(
-            first_name=validated_data['first_name'],
-            last_name=validated_data['last_name'],
-            email=validated_data['email'],
-            username=validated_data['username']
-        )
-        user.set_password(validated_data['password'])
+        name= validated_data.get('username')
+        email = validated_data.get('email')
+        passx = validated_data.get('password')
+        user = User.objects.create(username=name,email=email)
+        user.set_password(passx)
         gerenate_token(user)
         user.save()
         ###############################################################
@@ -223,4 +166,15 @@ class TagsSerializable(serializers.ModelSerializer):
     class Meta:
         model = Tags
         fields = '__all__'
+
+
+class ToolkitFollowersByTagSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = Gestor
+        fields = ('identifier','perfil')
+
+    
+
+
 

@@ -42,4 +42,9 @@ urlpatterns = [
     url(r'umbrella/api/v1/mgmnt/tags/g' , views.TagsList.as_view(),name='tags_list'),
 
     url(r'api-token-auth/' , views.CustomAuthToken.as_view(), name="user_token_list"),
+    
+    url(r'umbrella/api/v1/toolkit/follow/tags/$' , views.ToolkitActivateFollowersByTag.as_view(
+        {'post' : 'active'}
+    ),name="toolkit_follow_by_tag")
+
 ]
