@@ -1,26 +1,20 @@
 from django.shortcuts import render
 from rest_framework import generics,serializers,viewsets
-from django.http import response,request,HttpResponse
+from django.http import request
 from django_filters import rest_framework as filters
-from .models import *
-from .serializables.gestorSerializable import GestorSerializable
-from .serializables.userSerializable import UserSerializable
-from .serializables.seguidoresSerializable import SeguidoresSerializable
-from .serializables.feedbackSerializable import FeedbackSerializable
-from .serializables.tagsSerializable import TagsSerializable
-from .serializables.postsSerializable import PostSerializable
-from .serializables.perfisSerializable import PerfisSerializable
-from .serializables.perfisSerializable import PerfisSerializableCreate
-from .serializables.gestorSerializable import CreateGestorSerializable
-from .serializables.userSerializable import CreateUserSerializable
-from .serializables.seguidoresSerializable import SeguidoresSerializableCreate
+
+from serializable import handlerSerializable
+
 from rest_framework.authentication import SessionAuthentication,TokenAuthentication,BasicAuthentication
 from rest_framework.permissions import IsAdminUser, IsAuthenticated, AllowAny
 from rest_framework.authtoken.views import ObtainAuthToken
+
 from rest_framework.response import Response
 from braces.views import CsrfExemptMixin
+
 #from rest_framework_jwt.views import obtain_jwt_token
 from rest_framework.views import APIView
+
 # Create your views here.
 
 class Object(CsrfExemptMixin, APIView):
