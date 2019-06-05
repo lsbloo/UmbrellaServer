@@ -94,10 +94,20 @@ WSGI_APPLICATION = 'umbrela_api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
+#Define the configuration of databases;
+    # this default is postgreSQL
+    # your need customize this configuration of variables envolves;
+    #
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        #'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        #'NAME': 'umbrelladb',
+        #'USER': 'postgres',
+        #'PASSWORD': 'admin',
+        #'HOST': 'localhost',
+        #'PORT': '5432',
     }
 }
 
