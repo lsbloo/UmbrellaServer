@@ -50,3 +50,22 @@ class UmbrellaBot(threading.Thread):
 
     def like_feed_of_my_followers(self,amount,interact):
         th_session_like_by_feed = self.pool.apply_async(self.sessionbot.like_by_feed_of_my_followers(amount,interact))
+
+    
+
+    def like_by_localization(self,param_localization,param_perfils):
+        th_session_like_by_localization = self.pool.apply_async(self.sessionbot.follow_by_localization(param_localization,param_perfils))
+
+
+    def follows_by_list_perfis(self,list_perfis,interact):
+        th_session_follow_by_list= self.pool.apply_async(self.sessionbot.follows_by_list_perfis(list_perfis,interact))
+
+
+    def follow_comments_by_list_perfil(self,list_perfis,param_perfis):
+        th_session_follow_coments_by_list_perfil = self.pool.apply_async(self.sessionbot.follow_comments_by_list_perfil(list_perfis,param_perfis))
+
+    
+    def unfollow_users(self,list_perfis,param_perfis):
+        th_session_unfollow = self.pool.apply_async(self.sessionbot.unfollow_users(list_perfis,param_perfis))
+    
+    

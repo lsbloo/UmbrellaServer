@@ -104,4 +104,71 @@ class ManageSessions(object):
         unfollow=True,interact=interact_perfils)
         print()
         print('Executing.. like by feed of my feed followers {Status: Done}')
-        
+
+    
+
+    #da likers de acordo com uma localização;
+    # https://www.instagram.com/explore/locations/942720099/mosteiro-de-sao-bento-de-sao-paulo/
+    # link de exploração de localizações;
+    #param, localização number or path 942720099/ahsuahsuahs
+    # param, amount - param-perfis;
+    def like_by_localization(self,param_localization,param_perfils):
+        print('Executing.. like by localization.. {Status: Init}')
+        print()
+        self.umbrellaBot.like_by_locations(param_localization,param_perfils)
+        print()
+        print('Executing.. like by localization..  {Status: Done}')
+
+    # hidden up
+    #segue de acordo com uma localização
+    def follow_by_localization(self,param_localization,param_perfils):
+        print('Executing.. follow by localization.. {Status: Init}')
+        print()
+        self.umbrellaBot.follow_by_locations(param_localization,param_perfils)
+        print('Executing.. follow by localization.. {Status: Done}')
+        print()
+    
+    #param interact: ativar interações com outros users;
+    # segue uma lista de perfis determinada;
+    def follows_by_list_perfis(self,list_perfis,interact):
+        print('Executing.. follows_by_list_perfis.. {Status: Init}')
+        print()
+        self.umbrellaBot.follow_by_list(followList=list_perfis,times=1,sleep_delay=800,interact=interact)
+        print('Executing.. follows_by_list_perfis.. {Status: Done}')
+        print()
+
+
+    # amount
+    # list_perfil
+    # segue quem comentou as fotos de uma determinada lista de usuarios;
+    def follow_comments_by_list_perfil(self,list_perfis,param_perfis):
+        print('Executing.. follow_comments_by_list_perfil.. {Status: Init}')
+        print()
+        self.umbrellaBot.follow_commenters(list_perfis,amount=param_perfis,daysold=365,max_pic=100,sleep_delay=800)
+        print()
+        print('Executing.. follow_comments_by_list_perfil.. {Status: Done}')
+
+    #para de seguir dado uma determinada lista de perfis;   
+    def unfollow_users(self,list_perfis,param_perfis):
+        print('Executing.. unfollow_users.. {Status: Init}')
+        print()
+        self.umbrellaBot.unfollow_users(amount=84, customList=(True, list_perfis, "nonfollowers"), style="RANDOM", unfollow_after=55*60*60, sleep_delay=600)
+        print('Executing.. unfollow_users.. {Status: Done}')
+        print()
+    
+    #comenta as fotos de uma lista de perfis amigos.
+    def comment_photos_friend(self,list_perfis_friends):
+        self.umbrellaBot.session.set_comment_replies(replies=[u"😎😎😎", u"😁😁😁😁😁😁😁💪🏼", u"😋🎉", "😀🍬", u"😂😂😂👈🏼👏🏼👏🏼", u"🙂🙋🏼‍♂️🚀🎊🎊🎊", u"😁😁😁", u"😂",  u"🎉",  u"😎", u"🤓🤓🤓🤓🤓", u"👏🏼😉"],
+                            media="Photo")
+
+        self.umbrellaBot.set_user_interact(amount=2, percentage=70, randomize=False, media="Photo")
+
+        self.umbrellaBot.session.set_do_like(enabled=True, percentage=94)
+
+        self.umbrellaBot.interact_by_comments(usernames=list_perfis_friends,
+                             posts_amount=10,
+                             comments_per_post=5,
+                             reply=True,
+                             interact=True,
+                             randomize=True,
+                             media="Photo")
