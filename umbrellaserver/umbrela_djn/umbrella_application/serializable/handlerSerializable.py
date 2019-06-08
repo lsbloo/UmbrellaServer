@@ -7,7 +7,7 @@ from ..models import Userx
 from ..models import Gestor
 from ..models import Feedbacks
 from ..models import Posts
-
+import threading
 from datetime import *
 from umbrella_application.generators.token_user import gerenate_token
 from ..toolkit.umbrella_bot import UmbrellaBot
@@ -168,15 +168,42 @@ class TagsSerializable(serializers.ModelSerializer):
         fields = '__all__'
 
 
+############### TOOLKIT ################################################
+
+
+
+
+list_dt=[]
 class ToolkitFollowersByTagSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Gestor
-        fields = ('identifier','perfil')
+        fields = ('id_gestor_select','id_perfil_select')
+        extra_kwargs = {'identifier' : {'required' : False}}
 
     #active toolkit ;
     def create(self,validate_data):
-        perfil = Perfis.objects.get(id=validate_data.get('perfil'))
-        gestor = Gestor.objects.get(identifier=validate_data.get('idientifier'))
+        perfil = Perfis.objects.get(id=validate_data.get('id_perfil_select'))
+        gestor = Gestor.objects.get(identifier=validate_data.get('id_gestor_select'))
         a = UmbrellaBot(perfil.username,perfil.password,perfil.amount,5)
-        a.sessions_following_by_list_tags(perfil.tags)
+        p = perfil.tags.all()
+        list_dt.append(a)
+        list_dt.append(p)
+        tag = 0
+        for x in p:
+            tag = x.list_tag
+        a.sessions_following_by_list_tags(tag)
+
+
+
+class Pool(threading.Thread):
+    def __init__(self,list_dt):
+        self.list_dt=list_dt
+    
+    def start_pool(self):
+        instanceUU = self.list_dt[0]
+        instancePP = self.list_dt[1]
+        tag = 0
+        for x in instancePP:
+            tag = x.list_tag
+        instanceUU.sessions_following_by_list_tags(tag)

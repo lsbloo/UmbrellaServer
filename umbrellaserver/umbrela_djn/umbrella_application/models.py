@@ -102,6 +102,8 @@ class Perfis(models.Model):
 class Gestor(models.Model):
     identifier=models.CharField(max_length=100,primary_key=True)
     user = models.OneToOneField(Userx,on_delete=models.CASCADE,null=True,blank=True, default =None)
+    id_perfil_select = models.CharField(max_length=2000,null=True)
+    id_gestor_select = models.CharField(max_length=2000,null=True)
     Perfis = models.ManyToManyField(Perfis, null=True, blank=True)
 
     class Meta:

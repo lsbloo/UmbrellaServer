@@ -24,6 +24,7 @@ class UmbrellaBot(threading.Thread):
         
     def run(self):
         print('init instance of threadding bot')
+        
     def session_follow(self):
         th_session_folow = self.pool.apply_async(self.sessionbot.session_following())
         
@@ -46,3 +47,6 @@ class UmbrellaBot(threading.Thread):
         
     def follow_coments(self,list_users):
         th_session_follow_coments = self.pool.apply_async(self.sessionbot.follow_coments(list_users))
+
+    def like_feed_of_my_followers(self,amount,interact):
+        th_session_like_by_feed = self.pool.apply_async(self.sessionbot.like_by_feed_of_my_followers(amount,interact))

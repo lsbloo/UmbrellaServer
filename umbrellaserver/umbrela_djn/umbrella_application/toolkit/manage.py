@@ -6,7 +6,7 @@ from instapy import smart_run
 from time import sleep
 
 class ManageSessions(object):
-    def __init__(self,usernameuser,passworduser,hability_browser = False):
+    def __init__(self,usernameuser,passworduser,hability_browser = True):
         self.umbrellaBot=InstaPy(username=usernameuser,password=passworduser,headless_browser=hability_browser).login()
 
     def session_following(self):
@@ -88,3 +88,20 @@ class ManageSessions(object):
         self.umbrellaBot.follow_user_followers(neighour_list_followers,param_perfils,rand,sleep)
         print()
         print('Executing... neighour list followers of session user {Status: Done}')
+
+    # This is used to perform likes on your own feeds
+    # amount=100  specifies how many total likes you want to perform
+    # randomize=True randomly skips posts to be liked on your feed
+    # unfollow=True unfollows the author of a post which was considered
+    # inappropriate interact=True visits the author's profile page of a
+    # certain post and likes a given number of his pictures, then returns to feed
+     
+     #-> param amount and enable interactions
+    def like_by_feed_of_my_followers(self,param_perfils,interact_perfils):
+        print('Executing.. like by feed of my feed followers {Status: Init}')
+        print()
+        self.umbrellaBot.like_by_feed(amount=param_perfils,randomize=True,
+        unfollow=True,interact=interact_perfils)
+        print()
+        print('Executing.. like by feed of my feed followers {Status: Done}')
+        

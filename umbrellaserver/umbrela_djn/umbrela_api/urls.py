@@ -33,7 +33,6 @@ urlpatterns = [
     ) , name="create_followers"),
     url(r'umbrella/api/v1/mgmnt/profiles/c/$', views.CreateProfiles.as_view(
         {'post': 'create'}
-
     ) , name="profile_create"),
 
     url(r'umbrella/api/v1/mgmnt/users/c/$', views.CreateUser.as_view(
