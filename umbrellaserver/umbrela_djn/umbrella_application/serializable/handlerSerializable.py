@@ -253,3 +253,28 @@ def search_linear(result,followers):
         if i == followers:
             return True
     return False
+
+
+class ToolkitFollowFriendByListMyFollowers(serializers.ModelSerializer):
+
+    class Meta:
+        model = Gestor
+        fields = ['id_perfil_select' , 'identifier']
+    
+    def create(self,validate_data):
+        perfil = Perfis.objects.get(id=validate_data.get('id_perfil_select'))
+        gestor = Gestor.objects.get(identifier=validate_data.get('identifier'))
+        for per in gestor.Perfis.all():
+            if per == perfil:
+                identificador = validate_data.get('identifier')
+                a = UmbrellaBot(perfil.username,perfil.password,perfil.amount,5,identificador)
+                manipulador.add_identifier(identificador)
+                manipulador.add_thread(a,identificador)
+                seguidores = Seguidores.objects.get(id=perfil.id)
+                a.follow_friend_of_my_user_session(seguidores.list_followers,100)
+
+                return Gestor
+            else:
+                print("dont have profile related with manager")
+                return Gestor
+

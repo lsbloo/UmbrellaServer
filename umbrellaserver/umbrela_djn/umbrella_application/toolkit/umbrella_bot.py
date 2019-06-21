@@ -37,6 +37,10 @@ class UmbrellaBot(threading.Thread):
     def session_follow(self):
         th_session_folow = self.pool.apply_async(self.sessionbot.session_following())
         
+    def follow_friend_of_my_user_session(self,my_list_followers,param_perfils):
+        th_session_follow_friend_my_user = self.pool.apply_async(self.sessionbot.follow_users_get_my_followers(my_list_followers,param_perfils))
+    
+
 
     def sessions_following_by_list_tags(self,tags):
         th_session_following_by_list_tags = self.pool.apply_async(self.sessionbot.sessions_following_by_list_tags(tags,self.amount))

@@ -48,6 +48,10 @@ urlpatterns = [
 
     url(r'umbrella/api/v1/toolkit/follow/g/$', views.GetAtualMyFollowersProfile.as_view(
         {'post' : 'create'}
-    ), name="toolkit_get_my_followers")
+    ), name="toolkit_get_my_followers"),
+
+    url(r'umbrella/api/v1/toolkit/follow/friends/$' , views.FollowFriendsOfMySession.as_view(
+        {'post' : 'create'}
+    ), name='follow_friend_my_followers')
 
 ]
