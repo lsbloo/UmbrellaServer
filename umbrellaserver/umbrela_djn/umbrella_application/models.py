@@ -33,9 +33,9 @@ class Seguidores(models.Model):
     name_reference=models.CharField(max_length=100)
     status_follor = models.BooleanField(default=False)
     list_followers=ListCharField(
-        base_field=CharField(max_length=10),
-        size=60,
-        max_length=60*110
+        base_field=CharField(max_length=200),
+        size=600,
+        max_length=600*1100
         )
     class Meta:
         verbose_name_plural="seguidores"
@@ -46,9 +46,9 @@ class Seguidores(models.Model):
 class Tags(models.Model):
     name_reference=models.CharField(max_length=100)
     list_tag=ListCharField(
-        base_field=CharField(max_length=10),
-        size=6,
-        max_length=6*11
+        base_field=CharField(max_length=200),
+        size=600,
+        max_length=600*1100
         )
 
     class Meta:
@@ -60,9 +60,9 @@ class Tags(models.Model):
 class Posts(models.Model):
     name_reference=models.CharField(max_length=100)
     list_posts=ListCharField(
-        base_field=CharField(max_length=10),
-        size=6,
-        max_length=6*11
+        base_field=CharField(max_length=200),
+        size=600,
+        max_length=600*1100
     )
     
     class Meta:
@@ -74,15 +74,20 @@ class Posts(models.Model):
 class Feedbacks(models.Model):
     name_reference=models.CharField(max_length=100)
     list_feedbacks=ListCharField(
-        base_field=CharField(max_length=10),
-        size=6,
-        max_length=6*11
+        base_field=CharField(max_length=200),
+        size=600,
+        max_length=600*1100
     )
     
     class Meta:
         verbose_name_plural="feedbacks"
     def __str__(self):
         return self.name_reference
+class Photos(models.Model):
+    name_reference=models.CharField(max_length=100)
+    list_photos_profile=ListCharField(base_field=CharField(max_length=200)
+    ,size=600,
+    max_length=600*1100)
 
 class Perfis(models.Model):
     username=models.CharField(max_length=200)
@@ -93,6 +98,7 @@ class Perfis(models.Model):
     tags = models.ManyToManyField(Tags , null = True , default = None)
     posts = models.ManyToManyField(Posts , null = True , default = None)
     feedbacks = models.ManyToManyField(Feedbacks , null = True , default = None)
+    photos = models.ManyToManyField(Photos,null=True,default=None)
 
     class Meta:
         verbose_name_plural="perfis"

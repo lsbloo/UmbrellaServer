@@ -7,6 +7,7 @@ from ..models import Userx
 from ..models import Gestor
 from ..models import Feedbacks
 from ..models import Posts
+from ..models import Photos
 import threading
 from datetime import *
 from umbrella_application.generators.token_user import gerenate_token
@@ -38,6 +39,7 @@ class PerfisSerializableCreate(serializers.HyperlinkedModelSerializer):
         profiles.tags.add(Tags.objects.create())
         profiles.posts.add(Posts.objects.create())
         profiles.feedbacks.add(Feedbacks.objects.create())
+        profiles.photos.add(Photos.objects.create())
         profiles.save()
         result = Perfis.objects.get(id=profiles.id)
         g.Perfis.add(result)
@@ -228,12 +230,10 @@ class ToolkitGetMyFollowersSerializabler(serializers.ModelSerializer):
                 seguidores = Seguidores.objects.get(id=perfil.id)
                 if len(result) >= 1:
                     if len(seguidores.list_followers)  >= 1:
-                       
-                        for i in result:
-                            if search_linear(seguidores.list_followers,i):
+                        for i in seguidores.list_followers:
+                            if search_linear(result,i):
                                 pass
                             else:
-                                print("ok")
                                 seguidores.list_followers.append(i)
                         seguidores.save()
                     seguidores.list_followers=result
