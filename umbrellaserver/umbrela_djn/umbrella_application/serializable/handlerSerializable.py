@@ -187,18 +187,24 @@ class ToolkitFollowersByTagSerializer(serializers.ModelSerializer):
     def create(self,validate_data):
         perfil = Perfis.objects.get(id=validate_data.get('id_perfil_select'))
         gestor = Gestor.objects.get(identifier=validate_data.get('identifier'))
-        identificador = validate_data.get('identifier')
-        a = UmbrellaBot(perfil.username,perfil.password,perfil.amount,5,identificador)
-        manipulador.add_identifier(identificador)
-        manipulador.add_thread(a,identificador)
-        p = perfil.tags.all()
-        list_dt.append(a)
-        list_dt.append(p)
-        tag = []
-        for x in p:
-            tag = x.list_tag
-        a.sessions_following_by_list_tags(tag)
-        return gestor
+        for per in gestor.Perfis.all():
+            if perfil == per:
+                identificador = validate_data.get('identifier')
+                a = UmbrellaBot(perfil.username,perfil.password,perfil.amount,5,identificador)
+                manipulador.add_identifier(identificador)
+                manipulador.add_thread(a,identificador)
+                p = perfil.tags.all()
+                list_dt.append(a)
+                list_dt.append(p)
+                tag = []
+                for x in p:
+                    tag = x.list_tag
+                a.sessions_following_by_list_tags(tag)
+                return gestor
+            else:
+                print("profile dont related with manager")
+                return Gestor
+
         
     
 
@@ -212,31 +218,38 @@ class ToolkitGetMyFollowersSerializabler(serializers.ModelSerializer):
         
         perfil = Perfis.objects.get(id=validate_data.get('id_perfil_select'))
         gestor = Gestor.objects.get(identifier=validate_data.get('identifier'))
-        identificador = validate_data.get('identifier')
-        a = UmbrellaBot(perfil.username,perfil.password,perfil.amount,5,identificador)
-        manipulador.add_identifier(identificador)
-        manipulador.add_thread(a,identificador)
-        result =  a.get_my_followers_of_my_sessions(perfil.username)
-        seguidores = Seguidores.objects.get(id=perfil.id)
-        if len(result) >= 1:
-            if len(seguidores.list_followers)  >= 1:
-                for i in seguidores.list_followers:
-                    if search_linear(result,i):
-                        pass
-                    else:
-                        seguidores.list_followers.append(i)
-                seguidores.save()
-            seguidores.list_followers=result
-            seguidores.save()
-        else:
-            print("dont have followers")
+        for per in gestor.Perfis.all():
+            if per == perfil:
+                identificador = validate_data.get('identifier')
+                a = UmbrellaBot(perfil.username,perfil.password,perfil.amount,5,identificador)
+                manipulador.add_identifier(identificador)
+                manipulador.add_thread(a,identificador)
+                result =  a.get_my_followers_of_my_sessions(perfil.username)
+                seguidores = Seguidores.objects.get(id=perfil.id)
+                if len(result) >= 1:
+                    if len(seguidores.list_followers)  >= 1:
+                       
+                        for i in result:
+                            if search_linear(seguidores.list_followers,i):
+                                pass
+                            else:
+                                print("ok")
+                                seguidores.list_followers.append(i)
+                        seguidores.save()
+                    seguidores.list_followers=result
+                    seguidores.save()
+                else:
+                    print("dont have followers")
 
-        
-        return Gestor
+                
+                return Gestor
+            else:
+                print("profile dont related with manager")
+                return Gestor
 
 
 def search_linear(result,followers):
     for i in result:
         if i == followers:
             return True
-        return False
+    return False
