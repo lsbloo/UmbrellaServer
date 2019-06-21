@@ -4,6 +4,9 @@
  3) django 2+
  3) python3+
  4) venv
+ 5) instabot-py
+ 6) instapy
+ 7) InstagramApi
 ###############################################################################################################
 exemplo install: pip install django-mysql
 install pip linux: sudo apt install pip && python -m pip upgrade  { bla bla bla} essas coisas
