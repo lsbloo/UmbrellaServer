@@ -88,6 +88,7 @@ class Perfis(models.Model):
     username=models.CharField(max_length=200)
     password=models.CharField(max_length=200)
     amount=models.IntegerField(max_length=200,default = True)
+    identifier = models.CharField(max_length=200,null=True)
     seguidores = models.ManyToManyField(Seguidores,null=True, default=None) 
     tags = models.ManyToManyField(Tags , null = True , default = None)
     posts = models.ManyToManyField(Posts , null = True , default = None)

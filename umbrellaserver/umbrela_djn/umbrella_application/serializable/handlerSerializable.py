@@ -25,7 +25,7 @@ class PerfisSerializableCreate(serializers.HyperlinkedModelSerializer):
      
     class Meta:
         model = Perfis
-        fields = ('username','password')
+        fields = ('username','password','identifier')
     
     def create(self,validate_data):
         profiles = Perfis.objects.create(
@@ -33,12 +33,14 @@ class PerfisSerializableCreate(serializers.HyperlinkedModelSerializer):
             password=validate_data['password'],
             amount=500
         )
-
+        g = Gestor.objects.get(identifier=validate_data['identifier'])
         profiles.seguidores.add(Seguidores.objects.create())
         profiles.tags.add(Tags.objects.create())
         profiles.posts.add(Posts.objects.create())
         profiles.feedbacks.add(Feedbacks.objects.create())
         profiles.save()
+        result = Perfis.objects.get(id=profiles.id)
+        g.Perfis.add(result)
         return profiles
     
 
