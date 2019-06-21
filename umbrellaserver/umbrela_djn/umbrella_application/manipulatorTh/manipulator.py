@@ -14,6 +14,9 @@ class Manipulator(object):
 
     def add_identifier(self,identifier):
         self.identifier.append(identifier)
+
+    def get_th(self,identifier):
+        return self.dict_th[identifier]
     
     def add_thread(self,UmbrellaBot,identifier):
         result = self.checkExistenceIdentifier(identifier)
@@ -28,7 +31,7 @@ class Manipulator(object):
     def checkExistenceIdentifier(self,identifier):
         cont = 0
         for i in range(len(self.identifier)):
-            if identifier[i] == identifier:
+            if identifier == identifier:
                 cont+=1
             if cont>=2:
                 break

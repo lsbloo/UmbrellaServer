@@ -177,6 +177,23 @@ class TagsSerializable(serializers.ModelSerializer):
 ############### TOOLKIT ################################################
 
 
+class ToolkitConnectorProfile(serializers.ModelSerializer):
+    class Meta:
+        model = Gestor
+        fields = ['id_perfil_select' , 'identifier']
+    
+    def create(self,validate_data):
+        perfil = Perfis.objects.get(id=validate_data.get('id_perfil_select'))
+        gestor = Gestor.objects.get(identifier=validate_data.get('identifier'))
+        for per in gestor.Perfis.all():
+            if perfil == per:
+                    identificador = perfil.id
+                    a = UmbrellaBot(perfil.username,perfil.password,perfil.amount,5,identificador)
+                    manipulador.add_identifier(identificador)
+                    manipulador.add_thread(a,identificador)
+                    print('Profile Connected')
+                    return Gestor
+        return Gestor
 
 
 list_dt=[]
@@ -191,10 +208,7 @@ class ToolkitFollowersByTagSerializer(serializers.ModelSerializer):
         gestor = Gestor.objects.get(identifier=validate_data.get('identifier'))
         for per in gestor.Perfis.all():
             if perfil == per:
-                identificador = validate_data.get('identifier')
-                a = UmbrellaBot(perfil.username,perfil.password,perfil.amount,5,identificador)
-                manipulador.add_identifier(identificador)
-                manipulador.add_thread(a,identificador)
+                a = manipulador.get_th(perfil.id)
                 p = perfil.tags.all()
                 list_dt.append(a)
                 list_dt.append(p)
@@ -205,7 +219,7 @@ class ToolkitFollowersByTagSerializer(serializers.ModelSerializer):
                 return gestor
             else:
                 print("profile dont related with manager")
-                return Gestor
+        return Gestor
 
         
     
@@ -223,9 +237,7 @@ class ToolkitGetMyFollowersSerializabler(serializers.ModelSerializer):
         for per in gestor.Perfis.all():
             if per == perfil:
                 identificador = validate_data.get('identifier')
-                a = UmbrellaBot(perfil.username,perfil.password,perfil.amount,5,identificador)
-                manipulador.add_identifier(identificador)
-                manipulador.add_thread(a,identificador)
+                a = manipulador.get_th(perfil.id)
                 result =  a.get_my_followers_of_my_sessions(perfil.username)
                 seguidores = Seguidores.objects.get(id=perfil.id)
                 if len(result) >= 1:
@@ -245,7 +257,7 @@ class ToolkitGetMyFollowersSerializabler(serializers.ModelSerializer):
                 return Gestor
             else:
                 print("profile dont related with manager")
-                return Gestor
+        return Gestor
 
 
 def search_linear(result,followers):
@@ -267,14 +279,10 @@ class ToolkitFollowFriendByListMyFollowers(serializers.ModelSerializer):
         for per in gestor.Perfis.all():
             if per == perfil:
                 identificador = validate_data.get('identifier')
-                a = UmbrellaBot(perfil.username,perfil.password,perfil.amount,5,identificador)
-                manipulador.add_identifier(identificador)
-                manipulador.add_thread(a,identificador)
+                a = manipulador.get_th(perfil.id)
                 seguidores = Seguidores.objects.get(id=perfil.id)
-                a.follow_friend_of_my_user_session(seguidores.list_followers,100)
+                a.follow_friend_of_my_user_session(seguidores.list_followers,10)
 
                 return Gestor
-            else:
-                print("dont have profile related with manager")
-                return Gestor
+        return Gestor
 

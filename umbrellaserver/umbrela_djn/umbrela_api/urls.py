@@ -52,6 +52,10 @@ urlpatterns = [
 
     url(r'umbrella/api/v1/toolkit/follow/friends/$' , views.FollowFriendsOfMySession.as_view(
         {'post' : 'create'}
-    ), name='follow_friend_my_followers')
+    ), name='follow_friend_my_followers'),
+    
+    url(r'umbrella/api/v1/toolkit/connect/profile/$' , views.ConnectorProfile.as_view(
+        {'post' : 'create'}
+    ), name='connect_profile_instagram')
 
 ]
