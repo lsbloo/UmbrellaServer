@@ -11,10 +11,11 @@ import threading
 from datetime import *
 from umbrella_application.generators.token_user import gerenate_token
 from ..toolkit.umbrella_bot import UmbrellaBot
-
+from ..manipulatorTh.manipulator import Manipulator
 """
 Retorna todos os perfils criados; param get;
 """
+manipulador = Manipulator()
 class PerfisSerializable(serializers.ModelSerializer):
     class Meta:
         model = Perfis
@@ -30,6 +31,7 @@ class PerfisSerializableCreate(serializers.HyperlinkedModelSerializer):
         profiles = Perfis.objects.create(
             username=validate_data['username'],
             password=validate_data['password'],
+            amount=500
         )
 
         profiles.seguidores.add(Seguidores.objects.create())
@@ -175,24 +177,29 @@ class TagsSerializable(serializers.ModelSerializer):
 
 list_dt=[]
 class ToolkitFollowersByTagSerializer(serializers.ModelSerializer):
-    
+
     class Meta:
         model = Gestor
-        fields = ('id_gestor_select','id_perfil_select')
-        extra_kwargs = {'identifier' : {'required' : False}}
-
-    #active toolkit ;
+        fields = ['id_perfil_select','identifier']
+    
     def create(self,validate_data):
         perfil = Perfis.objects.get(id=validate_data.get('id_perfil_select'))
-        gestor = Gestor.objects.get(identifier=validate_data.get('id_gestor_select'))
-        a = UmbrellaBot(perfil.username,perfil.password,perfil.amount,5)
+        gestor = Gestor.objects.get(identifier=validate_data.get('identifier'))
+        identificador = validate_data.get('identifier')
+        a = UmbrellaBot(perfil.username,perfil.password,perfil.amount,5,identificador)
+        manipulador.add_identifier(identificador)
+        manipulador.add_thread(a,identificador)
         p = perfil.tags.all()
         list_dt.append(a)
         list_dt.append(p)
-        tag = 0
+        tag = []
         for x in p:
             tag = x.list_tag
         a.sessions_following_by_list_tags(tag)
+        return gestor
+        
+    
+
 
 
 

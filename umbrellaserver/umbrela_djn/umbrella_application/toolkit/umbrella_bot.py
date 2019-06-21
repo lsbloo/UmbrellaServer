@@ -13,7 +13,7 @@ from .manage import ManageSessions
 
 
 class UmbrellaBot(threading.Thread):
-    def __init__(self,username,password,amount,param_process):
+    def __init__(self,username,password,amount,param_process,identifier):
         threading.Thread.__init__(self)
         self.username=username
         self.password=password
@@ -21,6 +21,10 @@ class UmbrellaBot(threading.Thread):
         self.param_process=param_process
         self.pool = ThreadPool(processes=self.param_process)
         self.sessionbot = ManageSessions(self.username,self.password)
+        self.identifier=identifier
+    
+    def getIdentifier(self):
+        return self.identifier
         
     def run(self):
         print('init instance of threadding bot')

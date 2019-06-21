@@ -20,11 +20,10 @@ from rest_framework.views import APIView
 
 
 class ToolkitActivateFollowersByTag(viewsets.ModelViewSet):
-    queryset=Gestor.objects.all()
     serializer_class=ToolkitFollowersByTagSerializer
     authentication_classes=[TokenAuthentication,BasicAuthentication]
     permission_classes=(IsAuthenticated,)
-    filter_fields='__all__'
+    filter_fields=['id_perfil_select','identifier']
 
 
 class CsrfExemptSessionAuthentication(SessionAuthentication):
