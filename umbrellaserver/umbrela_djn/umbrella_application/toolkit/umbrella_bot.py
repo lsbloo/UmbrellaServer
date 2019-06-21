@@ -43,7 +43,7 @@ class UmbrellaBot(threading.Thread):
         
     
     def get_my_followers_of_my_sessions(self,usernameSession):
-        th_session_get_my_followrs_of_my_sessions =self.sessionbot.get_my_followers_of_my_sessions(usernameSession)                                                                                                                                                                                            
+        th_session_get_my_followrs_of_my_sessions = self.sessionbot.get_my_followers_of_my_sessions(usernameSession)                                                                                                                                                                                            
         return th_session_get_my_followrs_of_my_sessions
     
     def follow_users_get_list_users(self,list_follows):

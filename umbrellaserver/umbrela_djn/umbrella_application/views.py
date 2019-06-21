@@ -18,6 +18,12 @@ from rest_framework.views import APIView
 # Create your views here.
 
 
+class GetAtualMyFollowersProfile(viewsets.ModelViewSet):
+    serializer_class=ToolkitGetMyFollowersSerializabler
+    queryset= Gestor.objects.all()
+    authentication_classes=[TokenAuthentication,BasicAuthentication]
+    permission_classes=(IsAuthenticated,)
+    filter_fields=['id_perfil_select','identifier']
 
 class ToolkitActivateFollowersByTag(viewsets.ModelViewSet):
     serializer_class=ToolkitFollowersByTagSerializer

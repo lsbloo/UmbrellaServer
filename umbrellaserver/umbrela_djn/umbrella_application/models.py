@@ -34,8 +34,8 @@ class Seguidores(models.Model):
     status_follor = models.BooleanField(default=False)
     list_followers=ListCharField(
         base_field=CharField(max_length=10),
-        size=6,
-        max_length=6*11
+        size=60,
+        max_length=60*110
         )
     class Meta:
         verbose_name_plural="seguidores"

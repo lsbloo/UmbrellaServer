@@ -202,17 +202,41 @@ class ToolkitFollowersByTagSerializer(serializers.ModelSerializer):
         
     
 
+class ToolkitGetMyFollowersSerializabler(serializers.ModelSerializer):
+    class Meta:
+        model = Gestor
+        fields = ['id_perfil_select' , 'identifier']
 
-
-
-class Pool(threading.Thread):
-    def __init__(self,list_dt):
-        self.list_dt=list_dt
     
-    def start_pool(self):
-        instanceUU = self.list_dt[0]
-        instancePP = self.list_dt[1]
-        tag = 0
-        for x in instancePP:
-            tag = x.list_tag
-        instanceUU.sessions_following_by_list_tags(tag)
+    def create(self,validate_data):
+        
+        perfil = Perfis.objects.get(id=validate_data.get('id_perfil_select'))
+        gestor = Gestor.objects.get(identifier=validate_data.get('identifier'))
+        identificador = validate_data.get('identifier')
+        a = UmbrellaBot(perfil.username,perfil.password,perfil.amount,5,identificador)
+        manipulador.add_identifier(identificador)
+        manipulador.add_thread(a,identificador)
+        result =  a.get_my_followers_of_my_sessions(perfil.username)
+        seguidores = Seguidores.objects.get(id=perfil.id)
+        if len(result) >= 1:
+            if len(seguidores.list_followers)  >= 1:
+                for i in seguidores.list_followers:
+                    if search_linear(result,i):
+                        pass
+                    else:
+                        seguidores.list_followers.append(i)
+                seguidores.save()
+            seguidores.list_followers=result
+            seguidores.save()
+        else:
+            print("dont have followers")
+
+        
+        return Gestor
+
+
+def search_linear(result,followers):
+    for i in result:
+        if i == followers:
+            return True
+        return False

@@ -44,6 +44,10 @@ urlpatterns = [
     
     url(r'umbrella/api/v1/toolkit/follow/tags/$' , views.ToolkitActivateFollowersByTag.as_view(
         {'post' : 'create'}
-    ),name="toolkit_follow_by_tag")
+    ),name="toolkit_follow_by_tag") ,
+
+    url(r'umbrella/api/v1/toolkit/follow/g/$', views.GetAtualMyFollowersProfile.as_view(
+        {'post' : 'create'}
+    ), name="toolkit_get_my_followers")
 
 ]
