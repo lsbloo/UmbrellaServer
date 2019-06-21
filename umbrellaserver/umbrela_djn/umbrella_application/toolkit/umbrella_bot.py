@@ -28,6 +28,11 @@ class UmbrellaBot(threading.Thread):
         
     def run(self):
         print('init instance of threadding bot')
+
+
+    
+    def upload_photo(self,photo_url,caption_legend):
+        th_session_photo_up = self.pool.apply_async(self.sessionbot.upload_photo(photo_url,caption_legend))
         
     def session_follow(self):
         th_session_folow = self.pool.apply_async(self.sessionbot.session_following())
