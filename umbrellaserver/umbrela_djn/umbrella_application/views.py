@@ -120,8 +120,8 @@ class PerfisList(generics.ListCreateAPIView):
 class CreateProfiles(viewsets.ModelViewSet):
     queryset=Perfis.objects.all()
     serializer_class=PerfisSerializableCreate
-    authentication_classes=[TokenAuthentication,BasicAuthentication]
-    permission_classes=(IsAuthenticated,)
+    #authentication_classes=[TokenAuthentication,BasicAuthentication]
+    permission_classes=(AllowAny,)
     filter_fields='__all__'
 
 

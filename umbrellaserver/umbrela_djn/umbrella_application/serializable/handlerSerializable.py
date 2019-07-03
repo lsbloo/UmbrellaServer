@@ -28,13 +28,14 @@ class PerfisSerializableCreate(serializers.HyperlinkedModelSerializer):
         model = Perfis
         fields = ('username','password','identifier')
     
-    def create(self,validate_data):
+    def create(self,validated_data):
         profiles = Perfis.objects.create(
-            username=validate_data['username'],
-            password=validate_data['password'],
+            username=validated_data.get('username'),
+            password=validated_data.get('password'),
             amount=500
         )
-        g = Gestor.objects.get(identifier=validate_data['identifier'])
+        
+        g = Gestor.objects.get(identifier=validated_data.get('identifier'))
         profiles.seguidores.add(Seguidores.objects.create())
         profiles.tags.add(Tags.objects.create())
         profiles.posts.add(Posts.objects.create())
@@ -137,16 +138,13 @@ class UserSerializable(serializers.ModelSerializer):
 Define a criação de um usuário(user model), com um token associado para o mesmo (authentication);
     ->
 """
-class CreateUserSerializable(serializers.HyperlinkedModelSerializer):
+class CreateUserSerializable(serializers.ModelSerializer):
     
-    class Meta:
-        model = User
-        fields = ['email', 'password','username']
-        extra_kwargs = {'username': {'required': False}, 'password' : {'required': False} }
 
     def create(self, validated_data):
         #User Model
-        name= validated_data.get('username')
+        name = validated_data.get('username')
+        print("USERNAME ::::: >>>>> " , name)
         email = validated_data.get('email')
         passx = validated_data.get('password')
         user = User.objects.create(username=name,email=email)
@@ -166,7 +164,12 @@ class CreateUserSerializable(serializers.HyperlinkedModelSerializer):
         manager.save()
 
         return user
-
+    
+    class Meta:
+        model = User
+        fields = ['username', 'password','email']
+        extra_kwargs = { 'password' : {'write_only' : True}, 'password' : {'required' : False},
+        'username' : {'required' : False}}
 
 class TagsSerializable(serializers.ModelSerializer):
     class Meta:
