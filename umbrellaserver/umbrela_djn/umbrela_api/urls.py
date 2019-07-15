@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include,url
 from umbrella_application import views
+from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -38,6 +39,7 @@ urlpatterns = [
     url(r'umbrella/api/v1/mgmnt/users/c/$', views.CreateUser.as_view(
         {'post': 'create'}
     ), name="users_create"),
+    
     url(r'umbrella/api/v1/mgmnt/tags/g' , views.TagsList.as_view(),name='tags_list'),
 
     url(r'api-token-auth/' , views.CustomAuthToken.as_view(), name="user_token_list"),

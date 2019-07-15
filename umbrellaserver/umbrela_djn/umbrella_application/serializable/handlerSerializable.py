@@ -16,6 +16,9 @@ from ..manipulatorTh.manipulator import Manipulator
 """
 Retorna todos os perfils criados; param get;
 """
+
+
+
 manipulador = Manipulator()
 class PerfisSerializable(serializers.ModelSerializer):
     class Meta:
@@ -185,9 +188,11 @@ class ToolkitConnectorProfile(serializers.ModelSerializer):
         model = Gestor
         fields = ['id_perfil_select' , 'identifier']
     
-    def create(self,validate_data):
-        perfil = Perfis.objects.get(id=validate_data.get('id_perfil_select'))
-        gestor = Gestor.objects.get(identifier=validate_data.get('identifier'))
+    def create(self,validated_data):
+        print(" jIASJAISJAI",validated_data.get('identifier'))
+        print( "asuahsuahsuahs" ,validated_data.get('id_perfil_select'))
+        perfil = Perfis.objects.get(id=validated_data.get('id_perfil_select'))
+        gestor = Gestor.objects.get(identifier=validated_data.get('identifier'))
         for per in gestor.Perfis.all():
             if perfil == per:
                     identificador = perfil.id
@@ -206,9 +211,9 @@ class ToolkitFollowersByTagSerializer(serializers.ModelSerializer):
         model = Gestor
         fields = ['id_perfil_select','identifier']
     
-    def create(self,validate_data):
-        perfil = Perfis.objects.get(id=validate_data.get('id_perfil_select'))
-        gestor = Gestor.objects.get(identifier=validate_data.get('identifier'))
+    def create(self,validated_data):
+        perfil = Perfis.objects.get(id=validated_data.get('id_perfil_select'))
+        gestor = Gestor.objects.get(identifier=validated_data.get('identifier'))
         for per in gestor.Perfis.all():
             if perfil == per:
                 a = manipulador.get_th(perfil.id)
@@ -233,13 +238,13 @@ class ToolkitGetMyFollowersSerializabler(serializers.ModelSerializer):
         fields = ['id_perfil_select' , 'identifier']
 
     
-    def create(self,validate_data):
+    def create(self,validated_data):
         
-        perfil = Perfis.objects.get(id=validate_data.get('id_perfil_select'))
-        gestor = Gestor.objects.get(identifier=validate_data.get('identifier'))
+        perfil = Perfis.objects.get(id=validated_data.get('id_perfil_select'))
+        gestor = Gestor.objects.get(identifier=validated_data.get('identifier'))
         for per in gestor.Perfis.all():
             if per == perfil:
-                identificador = validate_data.get('identifier')
+                identificador = validated_data.get('identifier')
                 a = manipulador.get_th(perfil.id)
                 result =  a.get_my_followers_of_my_sessions(perfil.username)
                 seguidores = Seguidores.objects.get(id=perfil.id)
@@ -276,12 +281,12 @@ class ToolkitFollowFriendByListMyFollowers(serializers.ModelSerializer):
         model = Gestor
         fields = ['id_perfil_select' , 'identifier']
     
-    def create(self,validate_data):
-        perfil = Perfis.objects.get(id=validate_data.get('id_perfil_select'))
-        gestor = Gestor.objects.get(identifier=validate_data.get('identifier'))
+    def create(self,validated_data):
+        perfil = Perfis.objects.get(id=validated_data.get('id_perfil_select'))
+        gestor = Gestor.objects.get(identifier=validated_data.get('identifier'))
         for per in gestor.Perfis.all():
             if per == perfil:
-                identificador = validate_data.get('identifier')
+                identificador = validated_data.get('identifier')
                 a = manipulador.get_th(perfil.id)
                 seguidores = Seguidores.objects.get(id=perfil.id)
                 a.follow_friend_of_my_user_session(seguidores.list_followers,10)

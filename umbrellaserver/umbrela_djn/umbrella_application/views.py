@@ -17,11 +17,11 @@ from rest_framework.views import APIView
 
 # Create your views here.
 
+
 class ConnectorProfile(viewsets.ModelViewSet):
     serializer_class=ToolkitConnectorProfile
     queryset= Gestor.objects.all()
-    authentication_classes=[TokenAuthentication,BasicAuthentication]
-    permission_classes=(IsAuthenticated,)
+    permission_classes=(AllowAny,)
     filter_fields=['id_perfil_select','identifier']
 
 
